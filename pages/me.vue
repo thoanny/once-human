@@ -1,4 +1,6 @@
 <script setup>
+const config = useRuntimeConfig();
+
     definePageMeta({
         middleware: ['authenticated'],
     });
@@ -12,6 +14,7 @@
 
         <div class="container mx-auto my-6">
             <pre>{{ data }}</pre>
+            <pre>{{ config }}</pre>
         </div>
     </div>
 </template>

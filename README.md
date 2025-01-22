@@ -38,6 +38,13 @@ yarn dev
 bun run dev
 ```
 
+### .env
+
+```
+NODE_TLS_REJECT_UNAUTHORIZED=0
+NUXT_PUBLIC_API_URL=https://localhost
+```
+
 ## Production
 
 Build the application for production:

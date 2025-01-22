@@ -7,14 +7,15 @@ const bodySchema = z.object({
 
 export default defineEventHandler(async (event) => {
   const { email, password } = await readValidatedBody(event, bodySchema.parse);
+  const config = useRuntimeConfig();
 
   try {
-    await $fetch('https://api.thoanny.fr/token', {
+    await $fetch(`${config.public.apiURL}/token`, {
         method: 'POST',
         body: {email, password}
       }).then(async data => {
 
-        await $fetch('https://api.thoanny.fr/@me', {
+        await $fetch(`${config.public.apiURL}/@me`, {
             headers: {
                 Authorization: `Bearer ${data.token}`
             }
@@ -31,6 +32,7 @@ export default defineEventHandler(async (event) => {
 
       });
   } catch (exceptionVar) {
+    console.log(exceptionVar)
     throw createError({
         statusCode: 401,
         message: 'Bad credentials'

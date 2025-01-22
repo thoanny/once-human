@@ -1,8 +1,9 @@
 export default defineNuxtPlugin((nuxtApp) => {
-    const { session, clear } = useUserSession()
+    const { session, clear } = useUserSession();
+    const config = useRuntimeConfig();
   
     const api = $fetch.create({
-      baseURL: 'https://api.thoanny.fr',
+      baseURL: config.public.apiURL,
       onRequest({ request, options, error }) {
         if (session.value?.token) {
           // note that this relies on ofetch >= 1.4.0 - you may need to refresh your lockfile

@@ -14,5 +14,5 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
-  modules: ['nuxt-auth-utils']
+  modules: ['nuxt-auth-utils'],
 })
