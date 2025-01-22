@@ -1,12 +1,13 @@
 <script setup>
-    const { data } = useAPI('/once-human/memetics');
+    const { data, status } = useAPI('/once-human/memetics');
 </script>
 
 <template>
     <div class="container mx-auto my-6">
         <h1>Memetics</h1>
 
-        <div class="flex flex-col gap-4 my-6">
+        <AppLoading v-if="status === 'pending'" />
+        <div class="flex flex-col gap-4 my-6" v-else>
             <div v-for="memetic in data?.memetics" :key="memetic.id" class="border p-6 rounded-box flex flex-col gap-2">
                 <h4 class="flex gap-2 items-center font-bold text-xl">
                     <img :src="memetic.iconUrl" v-if="memetic.iconUrl" class="size-12" />

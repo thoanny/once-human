@@ -1,9 +1,10 @@
 <script setup>
-    const { data } = useAPI(`/once-human/recipes/${useRoute().params.id}`);
+    const { data, status } = useAPI(`/once-human/recipes/${useRoute().params.id}`);
 </script>
 
 <template>
-    <div class="container mx-auto my-6" v-if="data">
+    <AppLoading v-if="status === 'pending'" />
+    <div class="container mx-auto my-6" v-else>
         <h1 class="flex gap-2 items-center font-bold text-xl">
             <img :src="data.recipe.item.iconUrl" v-if="data.recipe.item.iconUrl" class="size-12 border-2 border-green-400 rounded" />
             {{ data.recipe.quantity }}&nbsp;&times; {{ data.recipe.item.name }}
