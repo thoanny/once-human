@@ -1,6 +1,5 @@
 <script setup>
-    const runtimeConfig = useRuntimeConfig();
-    const { data } = await useFetch(runtimeConfig.public.apiURL+'/once-human/scenarios');
+    const { data } = useAPI(`/once-human/scenarios`);
 </script>
 
 <template>

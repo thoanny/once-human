@@ -1,3 +1,12 @@
+<script setup>
+const { loggedIn, user, clear: clearUserSession } = useUserSession();
+
+const logout = async () => {
+    await clearUserSession();
+    navigateTo('/');
+}
+</script>
+
 <template>
     <div>
         <div class="navbar bg-base-200">
@@ -30,6 +39,7 @@
                         <li><NuxtLink :to="{name: 'scenarios'}">Scenarios</NuxtLink></li>
                         <li><NuxtLink :to="{name: 'servers'}">Servers</NuxtLink></li>
                         <li><NuxtLink :to="{name: 'about'}">About</NuxtLink></li>
+                        <li><NuxtLink :to="{name: 'me'}">@me</NuxtLink></li>
                     </ul>
                 </div>
                 <NuxtLink :to="{name: 'index'}" class="btn btn-ghost text-xl">Once Human</NuxtLink>
@@ -48,8 +58,15 @@
                     <li><NuxtLink :to="{name: 'about'}">About</NuxtLink></li>
                 </ul>
             </div>
-            <div class="navbar-end">
-                <a class="btn btn-primary">Button</a>
+            <div class="navbar-end gap-2">
+                <template v-if="loggedIn">
+                    <NuxtLink :to="{name: 'me'}" class="btn btn-primary">{{ user.nickname }}</NuxtLink>
+                    <button class="btn btn-error" @click="logout">Logout</button>
+                </template>
+                <template v-else>
+                    <NuxtLink :to="{name: 'login'}" class="btn btn-primary">Login</NuxtLink>
+                    <NuxtLink to="https://api.thoanny.fr/register" target="_blank" class="btn btn-primary btn-outline">Register</NuxtLink>
+                </template>
             </div>
         </div>
     </div>

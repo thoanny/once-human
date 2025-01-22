@@ -1,6 +1,5 @@
 <script setup>
-    const runtimeConfig = useRuntimeConfig();
-    const { data } = await useFetch(runtimeConfig.public.apiURL+'/once-human/memetics');
+    const { data } = useAPI('/once-human/memetics');
 </script>
 
 <template>
@@ -8,7 +7,7 @@
         <h1>Memetics</h1>
 
         <div class="flex flex-col gap-4 my-6">
-            <div v-for="memetic in data.memetics" :key="memetic.id" class="border p-6 rounded-box flex flex-col gap-2">
+            <div v-for="memetic in data?.memetics" :key="memetic.id" class="border p-6 rounded-box flex flex-col gap-2">
                 <h4 class="flex gap-2 items-center font-bold text-xl">
                     <img :src="memetic.iconUrl" v-if="memetic.iconUrl" class="size-12" />
                     {{ memetic.name }}
@@ -23,6 +22,6 @@
             </div>
         </div>
 
-        <pre>{{ data.memetics }}</pre>
+        <pre>{{ data?.memetics }}</pre>
     </div>
 </template>

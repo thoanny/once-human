@@ -1,13 +1,12 @@
 <script setup>
-    const runtimeConfig = useRuntimeConfig();
-    const { data } = await useFetch(runtimeConfig.public.apiURL+'/once-human/specializations');
+   const { data } = useAPI(`/once-human/specializations`);
 </script>
 
 <template>
     <div class="container mx-auto my-6">
         <h1>Specializations</h1>
 
-        <div class="flex flex-col gap-4 my-6">
+        <div class="flex flex-col gap-4 my-6" v-if="data?.specializations">
             <div v-for="specialization in data.specializations" :key="specialization.id" class="border p-6 rounded-box flex flex-col gap-2">
                 <h4 class="flex gap-2 items-center font-bold text-xl">
                     <img :src="specialization.iconUrl" v-if="specialization.iconUrl" class="size-12" />
@@ -21,6 +20,6 @@
             </div>
         </div>
 
-        <pre>{{ data.specializations }}</pre>
+        <pre>{{ data?.specializations }}</pre>
     </div>
 </template>

@@ -1,11 +1,9 @@
 <script setup>
-    const runtimeConfig = useRuntimeConfig();
-    const { id } = useRoute().params;
-    const { data } = await useFetch(`${runtimeConfig.public.apiURL}/once-human/items/${id}`);
+    const { data } = useAPI(`/once-human/items/${useRoute().params.id}`);
 </script>
 
 <template>
-    <div class="container mx-auto my-6">
+    <div class="container mx-auto my-6" v-if="data">
         <h1 class="flex gap-2 items-center font-bold text-xl">
             <img :src="data.item.iconUrl" v-if="data.item.iconUrl" class="size-12 border-2 border-green-400 rounded" />
             {{ data.item.name }}
