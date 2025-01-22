@@ -1,6 +1,11 @@
+<script setup>
+  const runtimeConfig = useRuntimeConfig()
+</script>
+
 <template>
   <div>
-    <NuxtRouteAnnouncer />
-    <NuxtWelcome />
+    <NuxtLayout>
+      <NuxtPage />
+    </NuxtLayout>
   </div>
 </template>

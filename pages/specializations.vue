@@ -1,0 +1,26 @@
+<script setup>
+    const runtimeConfig = useRuntimeConfig();
+    const { data } = await useFetch(runtimeConfig.public.apiURL+'/once-human/specializations');
+</script>
+
+<template>
+    <div class="container mx-auto my-6">
+        <h1>Specializations</h1>
+
+        <div class="flex flex-col gap-4 my-6">
+            <div v-for="specialization in data.specializations" :key="specialization.id" class="border p-6 rounded-box flex flex-col gap-2">
+                <h4 class="flex gap-2 items-center font-bold text-xl">
+                    <img :src="specialization.iconUrl" v-if="specialization.iconUrl" class="size-12" />
+                    {{ specialization.name }}
+                </h4>
+                <div v-if="specialization.description">{{ specialization.description }}</div>
+                <div v-if="specialization.levels" class="text-sm">Niveaux&nbsp;: {{ specialization.levels.join(', ') }}</div>
+                <div v-if="specialization.scenarios.length > 0">
+                    <span class="badge badge-neutral" v-for="scenario in specialization.scenarios" :key="scenario.id">{{ scenario.name }}</span>
+                </div>
+            </div>
+        </div>
+
+        <pre>{{ data.specializations }}</pre>
+    </div>
+</template>
