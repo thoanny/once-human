@@ -1,20 +1,19 @@
 <script setup>
 const config = useRuntimeConfig();
 
-    definePageMeta({
-        middleware: ['authenticated'],
-    });
+definePageMeta({
+    middleware: ['authenticated'],
+});
 
-    const { data } = await useAPI('/@me');
+const { data } = await useAPI('/@me');
 </script>
 
 <template>
-    <div>
-        <h1>@me</h1>
+    <div class="container my-6 mx-auto max-w-lg">
+        <h1>@me : {{ data.nickname }}</h1>
 
-        <div class="container mx-auto my-6">
+        <DevOnly>
             <pre>{{ data }}</pre>
-            <pre>{{ config }}</pre>
-        </div>
+        </DevOnly>
     </div>
 </template>
