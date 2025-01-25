@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+    --rounded-btn: 0;
+    --rounded-box: 0;
+}
+
 h1 {
     @apply text-2xl font-bold;
 }
@@ -21,4 +26,101 @@ pre {
 
 .router-link-active {
     @apply active;
+}
+
+.container {
+    @apply px-4;
+}
+
+body {
+    min-height: 100dvh;
+    background: url('~/assets/img/background.jpg') top center no-repeat;
+    background-size: 100%;
+    background-attachment: fixed;
+}
+
+*,
+*:hover {
+    scrollbar-color: initial;
+}
+
+/* ===== Scrollbar CSS ===== */
+/* Firefox */
+/* * {
+  scrollbar-width: auto;
+  scrollbar-color: oklch(var(--p)) oklch(var(--n));
+} */
+
+/* Chrome, Edge, and Safari */
+::-webkit-scrollbar {
+    width: 0.5rem;
+}
+
+::-webkit-scrollbar-track {
+    background: oklch(var(--n));
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: oklch(var(--a));
+    // border: 3px solid oklch(var(--n));
+}
+
+.border-oh-white {
+    border-color: #37393c;
+}
+
+.border-oh-green {
+    border-color: #4f735a;
+}
+
+.border-oh-blue {
+    border-color: #5a8191;
+}
+
+.border-oh-purple {
+    border-color: #734ea5;
+}
+
+.border-oh-orange {
+    border-color: #d9a44a;
+}
+
+.bg-oh-white {
+    background: #c9c9c9;
+    background: linear-gradient(90deg, #c9c9c9 0%, #c9c9c9 50%, #838383 100%);
+    color: #020202;
+    border-bottom: 2px solid #f8f8f8;
+}
+
+.bg-oh-green {
+    background: #416c4f;
+    background: linear-gradient(90deg, #416c4f 0%, #355941 50%, #2a4634 100%);
+    color: #000000;
+    border-bottom: 2px solid #4e8561;
+}
+
+.bg-oh-blue {
+    background: #456880;
+    background: linear-gradient(90deg, #456880 0%, #3c576d 50%, #2f4455 100%);
+    color: #000000;
+    border-bottom: 2px solid #5981a2;
+}
+
+.bg-oh-orange {
+    background: #a28651;
+    background: linear-gradient(90deg, #a28651 0%, #856d42 50%, #695634 100%);
+    color: #020202;
+    border-bottom: 2px solid #fbce6a;
+}
+
+.bg-oh-purple {
+    background: #6c5485;
+    background: linear-gradient(90deg, #6c5485 0%, #56446c 50%, #453654 100%);
+    color: #000;
+    border-bottom: 2px solid #80649f;
+}
+
+.scroll {
+    scrollbar-gutter: stable;
+    overflow-y: auto;
 }
