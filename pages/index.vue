@@ -17,7 +17,7 @@ const handleOpenModal = (id) => {
         <AppLoading v-if="status === 'pending'" />
         <div class="flex flex-col gap-4 my-6" v-else>
             <div
-                v-for="event in data.events"
+                v-for="event in data?.events"
                 :key="event.id"
                 class="bg-base-200/75 hover:bg-base-300 flex flex-col sm:flex-row gap-0 sm:gap-4 justify-between sm:items-center py-3 px-4 cursor-pointer select-none"
                 @click="handleOpenModal(event.id)"
