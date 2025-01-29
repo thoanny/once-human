@@ -41,7 +41,6 @@ export default defineNuxtConfig({
             description:
                 'Découvrez notre fansite dédié à Once Human : une base de données et des outils exclusifs pour la communauté francophone !',
             twitterCreator: '@thoanny_',
-            twitterSite: '@mysite',
             author: 'Thoanny',
             colorScheme: 'dark',
         },
