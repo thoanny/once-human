@@ -1,10 +1,22 @@
 <script setup>
-const { data, status } = useAPI(`/once-human/servers`);
+const { data, status } = await useAPI(`/once-human/servers`);
 const _difficulties = {
     easy: 'facile',
     normal: 'normal',
     hard: 'difficile',
 };
+
+useSeoMeta({
+    title: 'Serveurs',
+    ogTitle: 'Serveurs',
+    description: 'Liste des serveurs, tous scénarios confondus.',
+    ogDescription: 'Liste des serveurs, tous scénarios confondus.',
+});
+
+defineOgImageComponent('OHF', {
+    title: 'Serveurs',
+    description: 'Liste des serveurs, tous scénarios confondus.',
+});
 </script>
 
 <template>

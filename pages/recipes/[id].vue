@@ -1,12 +1,16 @@
 <script setup>
-    const { data, status } = useAPI(`/once-human/recipes/${useRoute().params.id}`);
+const { data, status } = await useAPI(`/once-human/recipes/${useRoute().params.id}`);
 </script>
 
 <template>
     <AppLoading v-if="status === 'pending'" />
     <div class="container mx-auto my-6" v-else>
         <h1 class="flex gap-2 items-center font-bold text-xl">
-            <img :src="data.recipe.item.iconUrl" v-if="data.recipe.item.iconUrl" class="size-12 border-2 border-green-400 rounded" />
+            <img
+                :src="data.recipe.item.iconUrl"
+                v-if="data.recipe.item.iconUrl"
+                class="size-12 border-2 border-green-400 rounded"
+            />
             {{ data.recipe.quantity }}&nbsp;&times; {{ data.recipe.item.name }}
         </h1>
         <div v-if="data.recipe.duration">{{ data.recipe.duration }}&nbsp;s.</div>
@@ -20,7 +24,10 @@
 
         <ul>
             <li v-for="ingredient in data.ingredients" :key="ingredient.id">
-                {{ ingredient.quantity }}&nbsp;&times; <NuxtLink :to="{name: 'items-id', params: {id: ingredient.item.id}}">{{ ingredient.item.name }}</NuxtLink>
+                {{ ingredient.quantity }}&nbsp;&times;
+                <NuxtLink :to="{ name: 'items-id', params: { id: ingredient.item.id } }">{{
+                    ingredient.item.name
+                }}</NuxtLink>
             </li>
         </ul>
 

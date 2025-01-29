@@ -1,5 +1,5 @@
 <script setup>
-    const { data } = useAPI(`/once-human/hives`);
+const { data } = await useAPI(`/once-human/hives`);
 </script>
 
 <template>

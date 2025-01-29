@@ -1,5 +1,5 @@
 <script setup>
-    const { data } = useAPI(`/once-human/characters`);
+const { data } = await useAPI(`/once-human/characters`);
 </script>
 
 <template>

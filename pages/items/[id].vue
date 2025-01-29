@@ -1,5 +1,30 @@
 <script setup>
-const { data, status } = useAPI(`/once-human/items/${useRoute().params.id}`);
+const { data, status } = await useAPI(`/once-human/items/${useRoute().params.id}`);
+
+const seoDescription = data.value?.item.description
+    ? data.value?.item.description
+          .split('---')
+          .pop()
+          .replace(/<[^>]*>?/gm, '')
+          .replace(/\r?\n|\r/g, ' ')
+          .replace(/\s+/g, ' ')
+          .trim()
+    : 'Découvrez notre fansite dédié à Once Human : une base de données et des outils exclusifs pour la communauté francophone !';
+
+useSeoMeta({
+    title: data.value.item.name,
+    ogTitle: data.value.item.name,
+    description: seoDescription,
+    ogDescription: seoDescription,
+});
+
+defineOgImageComponent('OHF', {
+    headline: data.value.item.category.name,
+    title: data.value.item.name,
+    description: seoDescription,
+    icon: data.value.item.iconUrl,
+    rarity: data.value.item.rarity,
+});
 </script>
 
 <template>

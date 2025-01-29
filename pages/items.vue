@@ -1,5 +1,17 @@
 <script setup>
-const { data, status } = useAPI(`/once-human/items`);
+const { data, status } = await useAPI(`/once-human/items`);
+
+useSeoMeta({
+    title: 'Inventaire',
+    ogTitle: 'Inventaire',
+    description: 'Base de données des objets et des formules associées.',
+    ogDescription: 'Base de données des objets et des formules associées.',
+});
+
+defineOgImageComponent('OHF', {
+    title: 'Inventaire',
+    description: 'Base de données des objets et des formules associées.',
+});
 </script>
 
 <template>
@@ -16,7 +28,7 @@ const { data, status } = useAPI(`/once-human/items`);
                 >
                     <NuxtLink
                         :to="{ name: 'items-id', params: { id: item.id } }"
-                        v-for="item in data.items"
+                        v-for="item in data?.items"
                         :key="item.id"
                         class="size-20 border-2 shrink-0"
                         :class="`border-oh-${item.rarity}`"

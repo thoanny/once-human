@@ -1,5 +1,5 @@
 <script setup>
-const { data, status } = useAPI(`/once-human/events`);
+const { data, status } = await useAPI(`/once-human/events`);
 
 const eventModal = ref();
 const currentEvent = ref();
@@ -8,6 +8,10 @@ const handleOpenModal = (id) => {
     currentEvent.value = data.value?.events.find((event) => event.id === id);
     eventModal.value.showModal();
 };
+
+defineOgImageComponent('OHF', {
+    title: 'Bienvenue métas !',
+});
 </script>
 
 <template>
