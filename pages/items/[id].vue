@@ -12,8 +12,8 @@ const seoDescription = data.value?.item.description
     : 'Découvrez notre fansite dédié à Once Human : une base de données et des outils exclusifs pour la communauté francophone !';
 
 useSeoMeta({
-    title: data.value.item.name,
-    ogTitle: data.value.item.name,
+    title: `${data.value.item.name} (${data.value.item.category.name})`,
+    ogTitle: `${data.value.item.name} (${data.value.item.category.name})`,
     description: seoDescription,
     ogDescription: seoDescription,
 });
