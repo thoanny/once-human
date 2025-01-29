@@ -25,7 +25,7 @@ export default defineNuxtConfig({
         },
     },
     sitemap: {
-        sources: ['https://localhost/once-human/sitemap'],
+        sources: ['https://api.thoanny.fr/once-human/sitemap'],
         exclude: ['/me'],
     },
     robots: {
