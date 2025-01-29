@@ -12,7 +12,7 @@ const logout = async () => {
         <div class="navbar bg-base-300">
             <div class="navbar-start">
                 <div class="dropdown">
-                    <div tabindex="0" role="button" class="btn btn-ghost xl:hidden">
+                    <div tabindex="0" role="button" class="btn btn-ghost md:hidden">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             class="h-5 w-5"
@@ -89,7 +89,7 @@ const logout = async () => {
                     </svg>
                 </NuxtLink>
             </div>
-            <div class="navbar-center hidden xl:flex">
+            <div class="navbar-center hidden md:flex">
                 <ul class="menu menu-horizontal px-1 gap-2">
                     <li><NuxtLink :to="{ name: 'specializations' }">Spécialisations</NuxtLink></li>
                     <li><NuxtLink :to="{ name: 'items' }">Inventaire</NuxtLink></li>
