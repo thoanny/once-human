@@ -1,7 +1,15 @@
 <script setup>
-const route = useRoute();
+const { loggedIn } = useUserSession();
+const { $api } = useNuxtApp();
 
 const { data, status } = await useAPI(`/once-human/specializations`);
+
+const { data: userSpecializations } = useAPI('/once-human/user/specializations', {
+    authenticated: true,
+    lazy: true,
+    server: false,
+    immediate: loggedIn.value,
+});
 
 const _types = {
     'facility-new': 'Nouvelle installation',
@@ -24,8 +32,14 @@ defineOgImageComponent('OHF', {
 
 const typeFilter = ref('');
 const levelFilter = ref('');
+const nameFilter = ref('');
 
 const filteredSpecializations = computed(() => {
+    const nameFilterValue = nameFilter.value
+        .normalize('NFD')
+        .replace(/\p{Diacritic}/gu, '')
+        .toLowerCase();
+
     return data.value?.specializations
         .filter((spec) => {
             if (typeFilter.value) {
@@ -38,22 +52,63 @@ const filteredSpecializations = computed(() => {
                 return spec.levels.indexOf(levelFilter.value) >= 0;
             }
             return true;
+        })
+        .filter((spec) => {
+            if (nameFilterValue.length > 0) {
+                return (
+                    spec.name
+                        .normalize('NFD')
+                        .replace(/\p{Diacritic}/gu, '')
+                        .toLowerCase()
+                        .indexOf(nameFilterValue) >= 0
+                );
+            }
+            return true;
         });
 });
 
 const handleCopyURLToClipboard = (id) => {
     navigator.clipboard.writeText(`https://once-human.thoanny.fr/specializations/${id}`);
 };
+
+const handleCharacterSpecialization = async (characterId, specializationId) => {
+    const character = userSpecializations.value.find((character) => character.id === characterId);
+    if (character) {
+        const exists = character.specializations.find(
+            (specialization) => specialization.id === specializationId,
+        );
+        await $api('/once-human/user/specializations', {
+            method: exists ? 'DELETE' : 'POST',
+            body: { character: characterId, specialization: specializationId },
+            authenticated: true,
+        }).then((data) => {
+            character.specializations = data.specializations;
+        });
+    }
+};
+
+const characterSpecializationIsActive = (specializationId, characterSpecializations) => {
+    return characterSpecializations.find((uSpec) => uSpec.id === specializationId);
+};
 </script>
 
 <template>
+    <!-- <pre>{{ userCharactersStatus }}</pre>
+    <pre>{{ userCharacters }}</pre> -->
     <div class="container mx-auto my-6 max-w-3xl">
         <div class="flex flex-col md:flex-row gap-4 justify-between">
             <h1>Spécialisations</h1>
+
             <div
                 class="flex flex-col sm:flex-row gap-2 items-start sm:items-center"
                 v-if="data?.specializations"
             >
+                <input
+                    type="input"
+                    class="input input-bordered input-sm"
+                    placeholder="Rechercher..."
+                    v-model="nameFilter"
+                />
                 <select v-model="typeFilter" class="select select-bordered select-sm">
                     <option value="">-- Type --</option>
                     <option v-for="(name, type) in _types" :key="type" :value="type">
@@ -87,6 +142,7 @@ const handleCopyURLToClipboard = (id) => {
                             viewBox="0 0 20 20"
                             fill="currentColor"
                             class="size-5"
+                            v-if="false"
                         >
                             <path
                                 fill-rule="evenodd"
@@ -138,8 +194,46 @@ const handleCopyURLToClipboard = (id) => {
                         class="badge badge-neutral"
                         v-for="scenario in specialization.scenarios"
                         :key="scenario.id"
-                        >{{ scenario.name }}</span
                     >
+                        {{ scenario.name }}
+                    </span>
+                </div>
+                <div v-if="userSpecializations" class="flex flex-wrap gap-3">
+                    <button
+                        class="btn btn-sm btn-neutral"
+                        v-for="character in userSpecializations"
+                        :key="character.id"
+                        @click="handleCharacterSpecialization(character.id, specialization.id)"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 512 512"
+                            class="size-4 shrink-0 text-success"
+                            fill="currentColor"
+                            v-if="
+                                characterSpecializationIsActive(
+                                    specialization.id,
+                                    character.specializations,
+                                )
+                            "
+                        >
+                            <path
+                                d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"
+                            />
+                        </svg>
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 512 512"
+                            class="size-4 shrink-0 text-error"
+                            fill="currentColor"
+                            v-else
+                        >
+                            <path
+                                d="M464 256A208 208 0 1 0 48 256a208 208 0 1 0 416 0zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256z"
+                            />
+                        </svg>
+                        {{ character.name }}
+                    </button>
                 </div>
             </div>
         </div>

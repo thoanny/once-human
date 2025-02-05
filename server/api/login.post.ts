@@ -30,7 +30,6 @@ export default defineEventHandler(async (event) => {
             });
         });
     } catch (exceptionVar) {
-        console.log(exceptionVar);
         throw createError({
             statusCode: 401,
             message: 'Bad credentials',

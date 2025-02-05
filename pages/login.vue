@@ -4,8 +4,10 @@ const credentials = reactive({
     email: '',
     password: '',
 });
+const isLoading = ref(false);
 async function login() {
-    $fetch('/api/login', {
+    isLoading.value = true;
+    await $fetch('/api/login', {
         method: 'POST',
         body: credentials,
     })
@@ -14,27 +16,32 @@ async function login() {
             await refreshSession();
             await navigateTo('/');
         })
-        .catch((error) => alert('Bad credentials'));
+        .catch((error) => {
+            isLoading.value = false;
+            credentials.password = '';
+            alert('Identifiants invalides.');
+        });
 }
 </script>
 
 <template>
     <div class="container mx-auto my-6 max-w-sm">
-        <h1>Login</h1>
-        <form @submit.prevent="login" class="flex flex-col gap-2 my-6">
+        <h1>Connexion</h1>
+        <AppLoading v-if="isLoading" />
+        <form @submit.prevent="login" class="flex flex-col gap-2 my-6" v-else>
             <input
                 v-model="credentials.email"
                 type="email"
-                placeholder="Email"
+                placeholder="Adresse e-mail"
                 class="input input-bordered"
             />
             <input
                 v-model="credentials.password"
                 type="password"
-                placeholder="Password"
+                placeholder="Mot de passe"
                 class="input input-bordered"
             />
-            <button type="submit" class="btn btn-accent">Login</button>
+            <button type="submit" class="btn btn-accent">Se connecter</button>
         </form>
     </div>
 </template>
