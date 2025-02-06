@@ -134,7 +134,7 @@ defineOgImageComponent('OHF', {
                     {{ server.name }}
                 </div>
                 <div class="text-xs" v-if="server.startAt">
-                    <NuxtTime :datetime="server.startAt" relative />
+                    {{ $dayjs(server.startAt).fromNow() }}
                 </div>
                 <div class="text-xs italic" v-else>date indéfinie</div>
                 <div v-if="server.tags.length > 0" class="flex gap-2 justify-center mt-2">

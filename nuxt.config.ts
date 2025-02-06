@@ -45,5 +45,11 @@ export default defineNuxtConfig({
             colorScheme: 'dark',
         },
     },
-    modules: ['nuxt-auth-utils', 'nuxt-time', 'nuxt-countdown', '@nuxtjs/seo'],
+    modules: ['nuxt-auth-utils', '@nuxtjs/seo', 'dayjs-nuxt'],
+    dayjs: {
+        locales: ['fr'],
+        plugins: ['relativeTime', 'utc', 'timezone', 'weekday'],
+        defaultLocale: 'fr',
+        defaultTimezone: 'Europe/Paris',
+    },
 });
