@@ -1,4 +1,12 @@
 <script setup>
+import {
+    IconBarcode,
+    IconBrandDiscord,
+    IconEye,
+    IconEdit,
+    IconTrash,
+    IconInfoCircle,
+} from '@tabler/icons-vue';
 const { $api } = useNuxtApp();
 const config = useRuntimeConfig();
 
@@ -121,30 +129,31 @@ const handleDeleteCharacter = async (id) => {
     <div class="container mx-auto">
         <h1>Bienvenue {{ me.nickname }} ! <span v-if="me.member">👑</span></h1>
 
-        <h2 class="my-4">Mes personnages ({{ characters.length }}/{{ me.member ? 3 : 1 }})</h2>
+        <h2 class="my-4">Mes personnages</h2>
 
-        <div role="alert" class="alert alert-info mb-4" v-if="!me.member">
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                class="h-6 w-6 shrink-0 stroke-current"
-            >
-                <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                ></path>
-            </svg>
-            <span
-                >Les <NuxtLink :to="{ name: 't-potes' }" class="link">T-potes</NuxtLink> peuvent
-                créer 3 personnages maximum, au lieu de 1.</span
-            >
+        <div class="flex flex-wrap items-center gap-1">
+            Limite de personnages : {{ characters.length }}/{{ me.member ? 3 : 1 }}
+            <div class="dropdown" v-if="!me.member">
+                <div tabindex="0" role="button" class="btn btn-circle btn-ghost btn-sm text-info">
+                    <IconInfoCircle class="size-5" />
+                </div>
+                <div
+                    tabindex="0"
+                    class="card compact dropdown-content bg-info text-info-content z-[1] w-80"
+                >
+                    <div tabindex="0" class="card-body">
+                        <p>
+                            Les
+                            <NuxtLink :to="{ name: 't-potes' }" class="link">T-potes</NuxtLink>
+                            peuvent créer 3 personnages maximum, au lieu de 1.
+                        </p>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <button
-            class="btn btn-accent btn-sm mb-4"
+            class="btn btn-accent btn-sm my-4"
             @click="handleAddCharacter"
             v-if="(!me.member && characters.length < 1) || (me.member && characters.length < 3)"
         >
@@ -268,7 +277,7 @@ const handleDeleteCharacter = async (id) => {
             </form>
         </dialog>
 
-        <ul class="flex flex-col gap-4">
+        <ul class="flex flex-col gap-4 my-4" v-if="characters">
             <li
                 v-for="character in characters"
                 :key="character.id"
@@ -290,28 +299,18 @@ const handleDeleteCharacter = async (id) => {
                     <span class="italic" v-else>Aucun serveur</span>
                 </div>
                 <div class="inline-flex text-sm gap-1 justify-center items-center w-1/6">
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 16 16"
-                        fill="currentColor"
-                        class="size-4"
-                    >
-                        <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z" />
-                        <path
-                            fill-rule="evenodd"
-                            d="M1.38 8.28a.87.87 0 0 1 0-.566 7.003 7.003 0 0 1 13.238.006.87.87 0 0 1 0 .566A7.003 7.003 0 0 1 1.379 8.28ZM11 8a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-                            clip-rule="evenodd"
-                        />
-                    </svg>
+                    <IconEye stroke-width="1.25" />
                     {{ _status[character.status] }}
                 </div>
 
                 <div class="inline-flex text-sm gap-1 justify-center items-center w-1/6">
-                    Discord
+                    <IconBrandDiscord stroke-width="1.25" />
+                    {{ character.discordUid ? character.discordUid : '—' }}
                 </div>
 
                 <div class="inline-flex text-sm gap-1 justify-center items-center w-1/6">
-                    Ingame
+                    <IconBarcode stroke-width="1.25" />
+                    {{ character.ingameUid ? character.ingameUid : '—' }}
                 </div>
 
                 <div class="flex gap-2">
@@ -319,51 +318,22 @@ const handleDeleteCharacter = async (id) => {
                         class="btn btn-sm btn-square btn-error btn-outline"
                         @click="handleDeleteCharacter(character.id)"
                     >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                            class="size-5"
-                        >
-                            <path
-                                fill-rule="evenodd"
-                                d="M8.75 1A2.75 2.75 0 0 0 6 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 1 0 .23 1.482l.149-.022.841 10.518A2.75 2.75 0 0 0 7.596 19h4.807a2.75 2.75 0 0 0 2.742-2.53l.841-10.52.149.023a.75.75 0 0 0 .23-1.482A41.03 41.03 0 0 0 14 4.193V3.75A2.75 2.75 0 0 0 11.25 1h-2.5ZM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4ZM8.58 7.72a.75.75 0 0 0-1.5.06l.3 7.5a.75.75 0 1 0 1.5-.06l-.3-7.5Zm4.34.06a.75.75 0 1 0-1.5-.06l-.3 7.5a.75.75 0 1 0 1.5.06l.3-7.5Z"
-                                clip-rule="evenodd"
-                            />
-                        </svg>
+                        <IconTrash stroke-width="1.5" />
                     </button>
                     <button
                         class="btn btn-sm btn-square btn-outline btn-accent"
                         @click="handleEditCharacter(character.id)"
                     >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                            class="size-5"
-                        >
-                            <path
-                                d="m5.433 13.917 1.262-3.155A4 4 0 0 1 7.58 9.42l6.92-6.918a2.121 2.121 0 0 1 3 3l-6.92 6.918c-.383.383-.84.685-1.343.886l-3.154 1.262a.5.5 0 0 1-.65-.65Z"
-                            />
-                            <path
-                                d="M3.5 5.75c0-.69.56-1.25 1.25-1.25H10A.75.75 0 0 0 10 3H4.75A2.75 2.75 0 0 0 2 5.75v9.5A2.75 2.75 0 0 0 4.75 18h9.5A2.75 2.75 0 0 0 17 15.25V10a.75.75 0 0 0-1.5 0v5.25c0 .69-.56 1.25-1.25 1.25h-9.5c-.69 0-1.25-.56-1.25-1.25v-9.5Z"
-                            />
-                        </svg>
+                        <IconEdit stroke-width="1.5" />
                     </button>
                 </div>
             </li>
         </ul>
 
-        <h2 class="my-2">Mes ruches</h2>
+        <h2 class="mb-4 mt-6">Mes ruches</h2>
 
         <ul>
             <li></li>
         </ul>
-
-        <DevOnly>
-            <pre>{{ me }}</pre>
-            <pre>{{ characters }}</pre>
-            <!-- <pre>{{ hives }}</pre> -->
-        </DevOnly>
     </div>
 </template>
