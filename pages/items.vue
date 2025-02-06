@@ -15,7 +15,7 @@ defineOgImageComponent('OHF', {
 </script>
 
 <template>
-    <div class="container max-w-6xl mx-auto my-6">
+    <div class="container max-w-6xl mx-auto">
         <h1>Inventaire</h1>
 
         <AppLoading v-if="status === 'pending'" />

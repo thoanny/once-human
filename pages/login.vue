@@ -14,7 +14,7 @@ async function login() {
         .then(async () => {
             // Refresh the session on client-side and redirect to the home page
             await refreshSession();
-            await navigateTo('/');
+            await navigateTo('/me');
         })
         .catch((error) => {
             isLoading.value = false;
@@ -25,7 +25,7 @@ async function login() {
 </script>
 
 <template>
-    <div class="container mx-auto my-6 max-w-sm">
+    <div class="container mx-auto max-w-sm">
         <h1>Connexion</h1>
         <AppLoading v-if="isLoading" />
         <form @submit.prevent="login" class="flex flex-col gap-2 my-6" v-else>

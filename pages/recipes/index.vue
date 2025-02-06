@@ -3,7 +3,7 @@ const { data, status } = await useAPI(`/once-human/recipes`);
 </script>
 
 <template>
-    <div class="container mx-auto my-6">
+    <div class="container mx-auto">
         <h1>Recipes</h1>
 
         <AppLoading v-if="status === 'pending'" />

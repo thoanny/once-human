@@ -29,7 +29,8 @@ pre {
 }
 
 .container {
-    @apply px-4;
+    @apply px-4 py-6;
+    min-height: calc(100dvh - 4rem - 4rem);
 }
 
 body {

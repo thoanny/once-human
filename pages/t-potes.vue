@@ -86,10 +86,6 @@ p {
     @apply mb-4;
 }
 
-.container {
-    min-height: calc(100dvh - (5rem * 2) + 2px);
-}
-
 .badge-outline {
     @apply bg-base-200;
 }

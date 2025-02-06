@@ -4,7 +4,7 @@ const { data, status } = await useAPI(`/once-human/recipes/${useRoute().params.i
 
 <template>
     <AppLoading v-if="status === 'pending'" />
-    <div class="container mx-auto my-6" v-else>
+    <div class="container mx-auto" v-else>
         <h1 class="flex gap-2 items-center font-bold text-xl">
             <img
                 :src="data.recipe.item.iconUrl"

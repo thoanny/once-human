@@ -95,7 +95,7 @@ const characterSpecializationIsActive = (specializationId, characterSpecializati
 <template>
     <!-- <pre>{{ userCharactersStatus }}</pre>
     <pre>{{ userCharacters }}</pre> -->
-    <div class="container mx-auto my-6 max-w-3xl">
+    <div class="container mx-auto max-w-3xl">
         <div class="flex flex-col md:flex-row gap-4 justify-between">
             <h1>Spécialisations</h1>
 

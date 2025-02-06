@@ -118,10 +118,30 @@ const handleDeleteCharacter = async (id) => {
 </script>
 
 <template>
-    <div class="container my-6 mx-auto">
-        <h1>Bienvenue {{ me.nickname }} !</h1>
+    <div class="container mx-auto">
+        <h1>Bienvenue {{ me.nickname }} ! <span v-if="me.member">👑</span></h1>
 
         <h2 class="my-4">Mes personnages ({{ characters.length }}/{{ me.member ? 3 : 1 }})</h2>
+
+        <div role="alert" class="alert alert-info mb-4" v-if="!me.member">
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                class="h-6 w-6 shrink-0 stroke-current"
+            >
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                ></path>
+            </svg>
+            <span
+                >Les <NuxtLink :to="{ name: 't-potes' }" class="link">T-potes</NuxtLink> peuvent
+                créer 3 personnages maximum, au lieu de 1.</span
+            >
+        </div>
 
         <button
             class="btn btn-accent btn-sm mb-4"

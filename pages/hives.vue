@@ -3,7 +3,7 @@ const { data } = await useAPI(`/once-human/hives`);
 </script>
 
 <template>
-    <div class="container mx-auto my-6">
+    <div class="container mx-auto">
         <h1>Hives</h1>
         <pre>{{ data }}</pre>
     </div>

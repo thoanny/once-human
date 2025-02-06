@@ -9,7 +9,7 @@ const logout = async () => {
 
 <template>
     <div>
-        <div class="navbar bg-base-300">
+        <div class="navbar bg-base-300 h-16">
             <div class="navbar-start">
                 <div class="dropdown">
                     <div tabindex="0" role="button" class="btn btn-ghost md:hidden">

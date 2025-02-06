@@ -77,7 +77,7 @@ defineOgImageComponent('OHF', {
 </script>
 
 <template>
-    <div class="container mx-auto my-6">
+    <div class="container mx-auto">
         <div class="flex flex-col md:flex-row gap-4 justify-between">
             <h1>Serveurs</h1>
             <div
