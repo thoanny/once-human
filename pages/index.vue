@@ -1,7 +1,5 @@
 <script setup>
-import { parseMarkdown } from '@nuxtjs/mdc/runtime';
-
-const { data, status } = await useAPI(`/once-human/events`);
+const { data } = useAPI(`/once-human/events`, { server: false, lazy: true });
 
 const eventModal = ref();
 const currentEvent = ref();
@@ -31,7 +29,7 @@ const filteredEvents = computed(() => {
         .second(59)
         .weekday(currentWeek.value * 7 + 6);
 
-    return data.value.events
+    return data.value?.events
         .filter((event) => {
             if (
                 (dayjs(event.startAt) < start && dayjs(event.endAt) >= start) ||
@@ -56,7 +54,7 @@ const filteredEvents = computed(() => {
                     colStart = dayjs(event.startAt).weekday() + 1;
                     colSpan = 8 - colStart;
                 } else {
-                    colStart = dayjs(event.startAt).weekday() + 1;
+                    colStart = dayjs(event.startAt).utc().weekday() + 1;
                     colSpan = dayjs(event.endAt).weekday() - dayjs(event.startAt).weekday() + 1;
                 }
             } else {
@@ -68,6 +66,7 @@ const filteredEvents = computed(() => {
                 ...event,
                 colStart: colStart,
                 colSpan: colSpan,
+                weekday: dayjs(event.startAt).weekday(),
             };
         })
         .sort(compareDates);
@@ -92,7 +91,7 @@ function compareDates(a, b) {
     <div class="container mx-auto">
         <h1>Évènements de la semaine</h1>
 
-        <AppLoading v-if="status === 'pending'" />
+        <AppLoading v-if="!filteredEvents" />
         <template v-else>
             <div class="flex gap-2 my-4">
                 <button
@@ -211,7 +210,9 @@ function compareDates(a, b) {
                                     }}
                                 </template>
                             </div>
-                            <span class="text-white font-semibold">{{ event.name }}</span>
+                            <span class="text-white font-semibold"
+                                >{{ event.name }} - {{ event.colSpan }} - {{ event.colStart }}</span
+                            >
                         </div>
                     </div>
                 </div>
