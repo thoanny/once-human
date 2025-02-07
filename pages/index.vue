@@ -242,7 +242,7 @@ function compareDates(a, b) {
                             <template v-if="currentEvent.endAt">
                                 &rarr;
                                 {{
-                                    $dayjs(currentEvent.startEnd).format(
+                                    $dayjs(currentEvent.endAt).format(
                                         currentEvent.allDay ? 'D MMMM YYYY' : 'D MMMM YYYY HH:mm',
                                     )
                                 }}
