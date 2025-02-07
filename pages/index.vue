@@ -54,7 +54,7 @@ const filteredEvents = computed(() => {
                     colStart = dayjs(event.startAt).weekday() + 1;
                     colSpan = 8 - colStart;
                 } else {
-                    colStart = dayjs(event.startAt).utc().weekday() + 1;
+                    colStart = dayjs(event.startAt).weekday() + 1;
                     colSpan = dayjs(event.endAt).weekday() - dayjs(event.startAt).weekday() + 1;
                 }
             } else {
@@ -66,7 +66,6 @@ const filteredEvents = computed(() => {
                 ...event,
                 colStart: colStart,
                 colSpan: colSpan,
-                weekday: dayjs(event.startAt).weekday(),
             };
         })
         .sort(compareDates);
@@ -210,9 +209,7 @@ function compareDates(a, b) {
                                     }}
                                 </template>
                             </div>
-                            <span class="text-white font-semibold"
-                                >{{ event.name }} - {{ event.colSpan }} - {{ event.colStart }}</span
-                            >
+                            <span class="text-white font-semibold">{{ event.name }}</span>
                         </div>
                     </div>
                 </div>
