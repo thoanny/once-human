@@ -125,3 +125,36 @@ body {
     scrollbar-gutter: stable;
     overflow-y: auto;
 }
+
+// Mardown
+
+.markdown {
+    @apply flex flex-col gap-4;
+
+    ul,
+    ol {
+        @apply ml-6;
+    }
+
+    ul {
+        @apply list-disc;
+    }
+
+    ol {
+        @apply list-decimal;
+    }
+
+    kbd {
+        @apply kbd kbd-sm;
+    }
+
+    &.item {
+        strong {
+            @apply text-accent font-semibold;
+        }
+
+        em {
+            @apply text-error not-italic;
+        }
+    }
+}

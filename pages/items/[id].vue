@@ -29,7 +29,7 @@ defineOgImageComponent('OHF', {
 
 <template>
     <AppLoading v-if="status === 'pending'" class="!my-0" />
-    <div class="bg-base-200/75" v-else>
+    <div class="bg-base-200/75 mb-4" v-else>
         <div class="py-3 px-4" :class="`bg-oh-${data.item.rarity}`">
             <h1 class="font-bold text-xl">
                 {{ data.item.name }}
@@ -37,9 +37,11 @@ defineOgImageComponent('OHF', {
             <div>{{ data.item.category.name }}</div>
         </div>
 
-        <div v-if="data.item.description" class="py-3 px-4">
-            {{ data.item.description }}
-        </div>
+        <MDC
+            :value="data.item.description"
+            v-if="data.item.description"
+            class="markdown item py-3 px-4"
+        />
         <div v-if="data.item.howToGet">
             <div class="bg-base-100 font-bold py-3 px-4">Comment obtenir&nbsp;?</div>
             <div class="py-3 px-4">{{ data.item.howToGet }}</div>

@@ -40,6 +40,7 @@ defineOgImageComponent('OHF', {
 
             <div class="flex-1 overflow-hidden">
                 <NuxtPage />
+                <Ohfr />
             </div>
         </div>
 

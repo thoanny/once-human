@@ -1,4 +1,6 @@
 <script setup>
+import { parseMarkdown } from '@nuxtjs/mdc/runtime';
+
 const { data, status } = await useAPI(`/once-human/events`);
 
 const eventModal = ref();
@@ -90,130 +92,133 @@ function compareDates(a, b) {
     <div class="container mx-auto">
         <h1>Évènements de la semaine</h1>
 
-        <div class="flex gap-2 my-4">
-            <button
-                @click="
-                    () => {
-                        if (currentWeek > 0) {
-                            currentWeek--;
-                        }
-                    }
-                "
-                class="btn btn-sm"
-                :class="{ 'btn-accent': currentWeek <= 0, 'btn-neutral': currentWeek > 0 }"
-            >
-                Cette semaine
-            </button>
-            <button
-                @click="
-                    () => {
-                        if (currentWeek < 1) {
-                            currentWeek++;
-                        }
-                    }
-                "
-                class="btn btn-sm"
-                :class="{ 'btn-accent': currentWeek >= 1, 'btn-neutral': currentWeek < 1 }"
-            >
-                Semaine prochaine
-            </button>
-        </div>
-
         <AppLoading v-if="status === 'pending'" />
-        <div class="my-6 overflow-x-auto overflow-y-hidden border border-neutral" v-else>
-            <div class="relative min-w-[74rem]">
-                <div class="grid grid-cols-7 absolute w-full h-full opacity-75 z-1">
-                    <div class="h-full w-full bg-neutral"></div>
-                    <div class="h-full w-full"></div>
-                    <div class="h-full w-full bg-neutral"></div>
-                    <div class="h-full w-full"></div>
-                    <div class="h-full w-full bg-neutral"></div>
-                    <div class="h-full w-full"></div>
-                    <div class="h-full w-full bg-neutral"></div>
-                </div>
-                <div
-                    class="grid grid-cols-7 text-center text-sm font-semibold h-8 items-center relative z-2"
+        <template v-else>
+            <div class="flex gap-2 my-4">
+                <button
+                    @click="
+                        () => {
+                            if (currentWeek > 0) {
+                                currentWeek--;
+                            }
+                        }
+                    "
+                    class="btn btn-sm"
+                    :class="{ 'btn-accent': currentWeek <= 0, 'btn-neutral': currentWeek > 0 }"
                 >
-                    <div>
-                        {{
-                            $dayjs()
-                                .weekday(currentWeek * 7)
-                                .format('ddd D MMM')
-                        }}
-                    </div>
-                    <div>
-                        {{
-                            $dayjs()
-                                .weekday(currentWeek * 7 + 1)
-                                .format('ddd D MMM')
-                        }}
-                    </div>
-                    <div>
-                        {{
-                            $dayjs()
-                                .weekday(currentWeek * 7 + 2)
-                                .format('ddd D MMM')
-                        }}
-                    </div>
-                    <div>
-                        {{
-                            $dayjs()
-                                .weekday(currentWeek * 7 + 3)
-                                .format('ddd D MMM')
-                        }}
-                    </div>
-                    <div>
-                        {{
-                            $dayjs()
-                                .weekday(currentWeek * 7 + 4)
-                                .format('ddd D MMM')
-                        }}
-                    </div>
-                    <div>
-                        {{
-                            $dayjs()
-                                .weekday(currentWeek * 7 + 5)
-                                .format('ddd D MMM')
-                        }}
-                    </div>
-                    <div>
-                        {{
-                            $dayjs()
-                                .weekday(currentWeek * 7 + 6)
-                                .format('ddd D MMM')
-                        }}
-                    </div>
-                </div>
-                <div
-                    class="grid grid-cols-7 relative z-2 mb-2 last-of-type:mb-[-1px]"
-                    v-for="event in filteredEvents"
-                    :key="event.id"
+                    Cette semaine
+                </button>
+                <button
+                    @click="
+                        () => {
+                            if (currentWeek < 1) {
+                                currentWeek++;
+                            }
+                        }
+                    "
+                    class="btn btn-sm"
+                    :class="{ 'btn-accent': currentWeek >= 1, 'btn-neutral': currentWeek < 1 }"
                 >
+                    Semaine prochaine
+                </button>
+            </div>
+            <div class="my-6 overflow-x-auto overflow-y-hidden border border-neutral">
+                <div class="relative min-w-[74rem]">
+                    <div class="grid grid-cols-7 absolute w-full h-full opacity-75 z-1">
+                        <div class="h-full w-full bg-neutral"></div>
+                        <div class="h-full w-full"></div>
+                        <div class="h-full w-full bg-neutral"></div>
+                        <div class="h-full w-full"></div>
+                        <div class="h-full w-full bg-neutral"></div>
+                        <div class="h-full w-full"></div>
+                        <div class="h-full w-full bg-neutral"></div>
+                    </div>
                     <div
-                        class="p-2 bg-base-200/75 hover:bg-base-300 cursor-pointer text-sm border border-neutral border-l-0 border-r-0"
-                        :class="`col-span-${event.colSpan} col-start-${event.colStart}`"
-                        @click="handleOpenModal(event.id)"
+                        class="grid grid-cols-7 text-center text-sm font-semibold h-8 items-center relative z-2"
                     >
-                        <div class="text-xs">
+                        <div>
                             {{
-                                $dayjs(event.startAt).format(
-                                    event.allDay ? 'D MMM YYYY' : 'D MMM YYYY HH:mm',
-                                )
+                                $dayjs()
+                                    .weekday(currentWeek * 7)
+                                    .format('ddd D MMM')
                             }}
-                            <template v-if="event.endAt">
-                                &rarr;
+                        </div>
+                        <div>
+                            {{
+                                $dayjs()
+                                    .weekday(currentWeek * 7 + 1)
+                                    .format('ddd D MMM')
+                            }}
+                        </div>
+                        <div>
+                            {{
+                                $dayjs()
+                                    .weekday(currentWeek * 7 + 2)
+                                    .format('ddd D MMM')
+                            }}
+                        </div>
+                        <div>
+                            {{
+                                $dayjs()
+                                    .weekday(currentWeek * 7 + 3)
+                                    .format('ddd D MMM')
+                            }}
+                        </div>
+                        <div>
+                            {{
+                                $dayjs()
+                                    .weekday(currentWeek * 7 + 4)
+                                    .format('ddd D MMM')
+                            }}
+                        </div>
+                        <div>
+                            {{
+                                $dayjs()
+                                    .weekday(currentWeek * 7 + 5)
+                                    .format('ddd D MMM')
+                            }}
+                        </div>
+                        <div>
+                            {{
+                                $dayjs()
+                                    .weekday(currentWeek * 7 + 6)
+                                    .format('ddd D MMM')
+                            }}
+                        </div>
+                    </div>
+                    <div
+                        class="grid grid-cols-7 relative z-2 mb-2 last-of-type:mb-[-1px]"
+                        v-for="event in filteredEvents"
+                        :key="event.id"
+                    >
+                        <div
+                            class="p-2 bg-base-200/75 hover:bg-base-300 cursor-pointer text-sm border border-neutral border-l-0 border-r-0"
+                            :class="`col-span-${event.colSpan} col-start-${event.colStart}`"
+                            @click="handleOpenModal(event.id)"
+                        >
+                            <div class="text-xs">
                                 {{
-                                    $dayjs(event.endAt).format(
+                                    $dayjs(event.startAt).format(
                                         event.allDay ? 'D MMM YYYY' : 'D MMM YYYY HH:mm',
                                     )
                                 }}
-                            </template>
+                                <template v-if="event.endAt">
+                                    &rarr;
+                                    {{
+                                        $dayjs(event.endAt).format(
+                                            event.allDay ? 'D MMM YYYY' : 'D MMM YYYY HH:mm',
+                                        )
+                                    }}
+                                </template>
+                            </div>
+                            <span class="text-white font-semibold">{{ event.name }}</span>
                         </div>
-                        <span class="text-white font-semibold">{{ event.name }}</span>
                     </div>
                 </div>
             </div>
-        </div>
+        </template>
+
+        <Ohfr class="mt-4" />
 
         <dialog ref="eventModal" class="modal">
             <div class="modal-box p-0">
@@ -245,7 +250,11 @@ function compareDates(a, b) {
                                 }}
                             </template>
                         </div>
-                        <p>{{ currentEvent.description }}</p>
+                        <MDC
+                            :value="currentEvent.description"
+                            v-if="currentEvent.description"
+                            class="markdown mt-4"
+                        />
                         <div class="card-actions mt-2" v-if="currentEvent.url">
                             <a :href="currentEvent.url" target="_blank" class="btn btn-accent">
                                 Plus d'infos

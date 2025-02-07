@@ -45,7 +45,7 @@ export default defineNuxtConfig({
             colorScheme: 'dark',
         },
     },
-    modules: ['nuxt-auth-utils', '@nuxtjs/seo', 'dayjs-nuxt'],
+    modules: ['nuxt-auth-utils', '@nuxtjs/seo', 'dayjs-nuxt', '@nuxtjs/mdc'],
     dayjs: {
         locales: ['fr'],
         plugins: ['relativeTime', 'utc', 'timezone', 'weekday'],
