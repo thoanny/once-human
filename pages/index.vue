@@ -185,30 +185,15 @@ function compareDates(a, b) {
                         </div>
                     </div>
                     <div
-                        class="grid grid-cols-7 relative z-2 mb-2 last-of-type:mb-[-1px]"
+                        class="grid grid-cols-7 relative z-2 mb-1 last-of-type:mb-[-1px]"
                         v-for="event in filteredEvents"
                         :key="event.id"
                     >
                         <div
-                            class="p-2 bg-base-200/75 hover:bg-base-300 cursor-pointer text-sm border border-neutral border-l-0 border-r-0"
+                            class="p-1 text-sm bg-base-200/75 hover:bg-base-300 cursor-pointer text-sm border border-neutral border-l-0 border-r-0"
                             :class="`col-span-${event.colSpan} col-start-${event.colStart}`"
                             @click="handleOpenModal(event.id)"
                         >
-                            <div class="text-xs">
-                                {{
-                                    $dayjs(event.startAt).format(
-                                        event.allDay ? 'D MMM YYYY' : 'D MMM YYYY HH:mm',
-                                    )
-                                }}
-                                <template v-if="event.endAt">
-                                    &rarr;
-                                    {{
-                                        $dayjs(event.endAt).format(
-                                            event.allDay ? 'D MMM YYYY' : 'D MMM YYYY HH:mm',
-                                        )
-                                    }}
-                                </template>
-                            </div>
                             <span class="text-white font-semibold">{{ event.name }}</span>
                         </div>
                     </div>
