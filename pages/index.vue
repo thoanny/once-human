@@ -13,10 +13,21 @@ defineOgImageComponent('OHF', {
     title: 'Bienvenue métas !',
 });
 
+const currentWeek = ref(0);
+
 const filteredEvents = computed(() => {
     const dayjs = useDayjs();
-    const start = dayjs().hour(1).minute(0).second(0).weekday(0);
-    const end = dayjs().utc().hour(23).minute(59).second(59).weekday(6);
+    const start = dayjs()
+        .hour(1)
+        .minute(0)
+        .second(0)
+        .weekday(currentWeek.value * 7);
+    const end = dayjs()
+        .utc()
+        .hour(23)
+        .minute(59)
+        .second(59)
+        .weekday(currentWeek.value * 7 + 6);
 
     return data.value.events
         .filter((event) => {
@@ -79,6 +90,35 @@ function compareDates(a, b) {
     <div class="container mx-auto">
         <h1>Évènements de la semaine</h1>
 
+        <div class="flex gap-2 my-4">
+            <button
+                @click="
+                    () => {
+                        if (currentWeek > 0) {
+                            currentWeek--;
+                        }
+                    }
+                "
+                class="btn btn-sm"
+                :class="{ 'btn-accent': currentWeek <= 0, 'btn-neutral': currentWeek > 0 }"
+            >
+                Cette semaine
+            </button>
+            <button
+                @click="
+                    () => {
+                        if (currentWeek < 1) {
+                            currentWeek++;
+                        }
+                    }
+                "
+                class="btn btn-sm"
+                :class="{ 'btn-accent': currentWeek >= 1, 'btn-neutral': currentWeek < 1 }"
+            >
+                Semaine prochaine
+            </button>
+        </div>
+
         <AppLoading v-if="status === 'pending'" />
         <div class="my-6 overflow-x-auto overflow-y-hidden border border-neutral" v-else>
             <div class="relative min-w-[74rem]">
@@ -95,25 +135,53 @@ function compareDates(a, b) {
                     class="grid grid-cols-7 text-center text-sm font-semibold h-8 items-center relative z-2"
                 >
                     <div>
-                        {{ $dayjs().weekday(0).format('ddd D MMM') }}
+                        {{
+                            $dayjs()
+                                .weekday(currentWeek * 7)
+                                .format('ddd D MMM')
+                        }}
                     </div>
                     <div>
-                        {{ $dayjs().weekday(1).format('ddd D MMM') }}
+                        {{
+                            $dayjs()
+                                .weekday(currentWeek * 7 + 1)
+                                .format('ddd D MMM')
+                        }}
                     </div>
                     <div>
-                        {{ $dayjs().weekday(2).format('ddd D MMM') }}
+                        {{
+                            $dayjs()
+                                .weekday(currentWeek * 7 + 2)
+                                .format('ddd D MMM')
+                        }}
                     </div>
                     <div>
-                        {{ $dayjs().weekday(3).format('ddd D MMM') }}
+                        {{
+                            $dayjs()
+                                .weekday(currentWeek * 7 + 3)
+                                .format('ddd D MMM')
+                        }}
                     </div>
                     <div>
-                        {{ $dayjs().weekday(4).format('ddd D MMM') }}
+                        {{
+                            $dayjs()
+                                .weekday(currentWeek * 7 + 4)
+                                .format('ddd D MMM')
+                        }}
                     </div>
                     <div>
-                        {{ $dayjs().weekday(5).format('ddd D MMM') }}
+                        {{
+                            $dayjs()
+                                .weekday(currentWeek * 7 + 5)
+                                .format('ddd D MMM')
+                        }}
                     </div>
                     <div>
-                        {{ $dayjs().weekday(6).format('ddd D MMM') }}
+                        {{
+                            $dayjs()
+                                .weekday(currentWeek * 7 + 6)
+                                .format('ddd D MMM')
+                        }}
                     </div>
                 </div>
                 <div
