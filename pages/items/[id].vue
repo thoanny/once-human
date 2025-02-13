@@ -61,32 +61,48 @@ defineOgImageComponent('OHF', {
             <div class="bg-base-100 font-bold py-3 px-4">
                 {{ data.recipes.length > 1 ? 'Recettes' : 'Recette' }}
             </div>
-            <ul id="recipes">
-                <li v-for="recipe in data.recipes">
-                    <NuxtLink
-                        :to="{ name: 'recipes-id', params: { id: recipe.id } }"
-                        class="flex flex-col py-3 px-4 hover:bg-base-300 hover:text-white"
+
+            <div>
+                <div
+                    v-for="recipe in data.recipes"
+                    :key="recipe.id"
+                    class="grid grid-cols-13 gap-1 p-2 items-center"
+                >
+                    <div
+                        class="col-span-2 w-full aspect-square p-1 border relative"
+                        :class="`border-oh-${data.item.rarity} bg-oh-item-${data.item.rarity}`"
                     >
-                        <strong>{{ recipe.quantity }}&nbsp;&times; {{ data.item.name }}</strong>
-                        <ul class="text-sm">
-                            <li>
-                                &mdash;&nbsp;{{ recipe.workshop.name }} ({{
-                                    recipe.duration
-                                }}&nbsp;sec.)
-                                <ul class="border-l border-neutral pl-[.65rem] ml-[.45rem]">
-                                    <li
-                                        v-for="ingredient in recipe.ingredients"
-                                        :key="ingredient.id"
-                                    >
-                                        {{ ingredient.quantity }}&nbsp;&times;
-                                        {{ ingredient.item.name }}
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </NuxtLink>
-                </li>
-            </ul>
+                        <img :src="data.item.iconUrl" alt="" />
+                        <span class="text-xs font-semibold text-white absolute bottom-1 right-1">
+                            {{ recipe.quantity }}
+                        </span>
+                    </div>
+                    <div class="text-center text-xl font-bold">=</div>
+                    <div
+                        class="col-span-2 w-full aspect-square tooltip p-1 border relative border-accent"
+                        :data-tip="recipe.workshop.name"
+                        :class="`bg-oh-item-${recipe.workshop.rarity}`"
+                        v-if="recipe.workshop"
+                    >
+                        <img :src="recipe.workshop.iconUrl" alt="" />
+                        <span class="text-xs font-semibold text-white absolute bottom-1 right-1">
+                            {{ recipe.duration }}s
+                        </span>
+                    </div>
+                    <div
+                        v-for="ingredient in recipe.ingredients"
+                        :key="ingredient.id"
+                        class="col-span-2 w-full aspect-square tooltip p-1 border relative"
+                        :data-tip="ingredient.item.name"
+                        :class="`border-oh-${ingredient.item.rarity} bg-oh-item-${ingredient.item.rarity}`"
+                    >
+                        <img :src="ingredient.item.iconUrl" alt="" />
+                        <span class="text-xs font-semibold text-white absolute bottom-1 right-1">
+                            {{ ingredient.quantity }}
+                        </span>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- <DevOnly>
