@@ -1,6 +1,64 @@
 <script setup>
 const { data, status } = await useAPI(`/once-human/items`);
 
+const categoryFilter = ref('');
+const nameFilter = ref('');
+
+function compareNames(a, b) {
+    var nameA = a.name.toLowerCase();
+    var nameB = b.name.toLowerCase();
+
+    if (nameA < nameB) {
+        return -1;
+    }
+    if (nameA > nameB) {
+        return 1;
+    }
+
+    return 0;
+}
+
+const listCategories = computed(() => {
+    return data.value
+        ?.map((item) => {
+            return { id: item.category.id, name: item.category.name };
+        })
+        .reduce((acc, obj) => {
+            if (!acc.some((item) => item.id === obj.id)) {
+                acc.push(obj);
+            }
+            return acc;
+        }, [])
+        .sort(compareNames);
+});
+
+const filteredItems = computed(() => {
+    const nameFilterValue = nameFilter.value
+        .normalize('NFD')
+        .replace(/\p{Diacritic}/gu, '')
+        .toLowerCase();
+
+    return data.value
+        .filter((spec) => {
+            if (nameFilterValue.length > 0) {
+                return (
+                    spec.name
+                        .normalize('NFD')
+                        .replace(/\p{Diacritic}/gu, '')
+                        .toLowerCase()
+                        .indexOf(nameFilterValue) >= 0
+                );
+            }
+            return true;
+        })
+        .filter((item) => {
+            if (categoryFilter.value) {
+                return item.category.id === categoryFilter.value;
+            }
+            return true;
+        });
+});
+
 useSeoMeta({
     title: 'Inventaire',
     ogTitle: 'Inventaire',
@@ -16,7 +74,28 @@ defineOgImageComponent('OHF', {
 
 <template>
     <div class="container max-w-6xl mx-auto">
-        <h1>Inventaire</h1>
+        <div class="flex flex-col md:flex-row gap-4 justify-between">
+            <h1>Inventaire</h1>
+
+            <div v-if="data" class="flex flex-col sm:flex-row gap-2 items-start sm:items-center">
+                <input
+                    type="input"
+                    class="input input-bordered input-sm"
+                    placeholder="Rechercher..."
+                    v-model="nameFilter"
+                />
+                <select v-model="categoryFilter" class="select select-bordered select-sm">
+                    <option value="">-- Catégorie --</option>
+                    <option
+                        v-for="category in listCategories"
+                        :key="category.id"
+                        :value="category.id"
+                    >
+                        {{ category.name }}
+                    </option>
+                </select>
+            </div>
+        </div>
 
         <AppLoading v-if="status === 'pending'" />
         <div class="flex flex-col-reverse md:flex-row items-start gap-4 my-6" v-else>
@@ -28,10 +107,10 @@ defineOgImageComponent('OHF', {
                 >
                     <NuxtLink
                         :to="{ name: 'items-id', params: { id: item.id } }"
-                        v-for="item in data?.items"
+                        v-for="item in filteredItems"
                         :key="item.id"
-                        class="size-20 border-2 shrink-0"
-                        :class="`border-oh-${item.rarity}`"
+                        class="size-20 border-2 shrink-0 p-1"
+                        :class="`border-oh-${item.rarity} bg-oh-item-${item.rarity}`"
                     >
                         <img :src="item.iconUrl" v-if="item.iconUrl" class="w-full h-full" />
                     </NuxtLink>
@@ -44,9 +123,9 @@ defineOgImageComponent('OHF', {
             </div>
         </div>
 
-        <!-- <DevOnly>
-            <pre>{{ data?.items }}</pre>
-        </DevOnly> -->
+        <DevOnly>
+            <pre>{{ data }}</pre>
+        </DevOnly>
     </div>
 </template>
 
@@ -67,6 +146,7 @@ defineOgImageComponent('OHF', {
     width: 100%;
     height: 100%;
     top: 0;
+    left: 0;
     position: absolute;
 }
 </style>

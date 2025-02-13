@@ -121,6 +121,31 @@ body {
     border-bottom: 2px solid #80649f;
 }
 
+.bg-oh-item-white {
+    background: #292927;
+    background: linear-gradient(180deg, #292927 0%, #1b1c1b 100%);
+}
+
+.bg-oh-item-green {
+    background: #1c2023;
+    background: linear-gradient(190deg, #1c2023 0%, #233129 100%);
+}
+
+.bg-oh-item-blue {
+    background: #1e2427;
+    background: linear-gradient(190deg, #1e2427 0%, #242f45 100%);
+}
+
+.bg-oh-item-purple {
+    background: #242423;
+    background: linear-gradient(190deg, #242423 0%, #3a2547 100%);
+}
+
+.bg-oh-item-orange {
+    background: #1c1e21;
+    background: linear-gradient(190deg, #1c1e21 0%, #402f1f 100%);
+}
+
 .scroll {
     scrollbar-gutter: stable;
     overflow-y: auto;
