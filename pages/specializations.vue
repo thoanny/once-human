@@ -174,8 +174,9 @@ const characterSpecializationIsActive = (specializationId, characterSpecializati
                 </div>
                 <div class="flex gap-6 items-center pr-14">
                     <img
-                        :src="specialization.iconUrl ?? '/img/default-specialization.png'"
+                        :src="specialization.iconUrl"
                         class="size-16 shrink-0"
+                        v-if="specialization.iconUrl"
                     />
                     <div class="grow">
                         <span class="text-sm font-bold" v-if="specialization.type">{{
