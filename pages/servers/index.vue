@@ -1,10 +1,5 @@
 <script setup>
 const { data, status } = await useAPI(`/once-human/servers`);
-const _difficulties = {
-    easy: 'facile',
-    normal: 'normal',
-    hard: 'difficile',
-};
 
 const scenarioFilter = ref('');
 const difficultyFilter = ref('');
@@ -122,7 +117,6 @@ defineOgImageComponent('OHF', {
             >
                 <div class="text-xs">
                     {{ server.scenario.name }}
-                    <br />({{ _difficulties[server.difficulty] }})
                 </div>
                 <div
                     class="font-bold text-lg"
