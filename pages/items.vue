@@ -112,7 +112,11 @@ defineOgImageComponent('OHF', {
                         class="size-20 border-2 shrink-0 p-1"
                         :class="`border-oh-${item.rarity} bg-oh-item-${item.rarity}`"
                     >
-                        <img :src="item.iconUrl" v-if="item.iconUrl" class="w-full h-full" />
+                        <img
+                            :src="item.iconUrl ?? '/img/default-item.png'"
+                            class="w-full h-full"
+                            :class="{ 'opacity-75': !item.iconUrl }"
+                        />
                     </NuxtLink>
                 </div>
             </div>

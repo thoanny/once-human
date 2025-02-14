@@ -72,7 +72,11 @@ defineOgImageComponent('OHF', {
                         class="col-span-2 w-full aspect-square p-1 border relative"
                         :class="`border-oh-${data.item.rarity} bg-oh-item-${data.item.rarity}`"
                     >
-                        <img :src="data.item.iconUrl" alt="" />
+                        <img
+                            :src="data.item.iconUrl ?? '/img/default-item.png'"
+                            :class="{ 'opacity-75': !data.item.iconUrl }"
+                            alt=""
+                        />
                         <span class="text-xs font-semibold text-white absolute bottom-1 right-1">
                             {{ recipe.quantity }}
                         </span>
@@ -84,7 +88,11 @@ defineOgImageComponent('OHF', {
                         :class="`bg-oh-item-${recipe.workshop.rarity}`"
                         v-if="recipe.workshop"
                     >
-                        <img :src="recipe.workshop.iconUrl" alt="" />
+                        <img
+                            :src="recipe.workshop.iconUrl ?? '/img/default-item.png'"
+                            :class="{ 'opacity-75': !recipe.workshop.iconUrl }"
+                            alt=""
+                        />
                         <span class="text-xs font-semibold text-white absolute bottom-1 right-1">
                             {{ recipe.duration }}s
                         </span>
@@ -96,7 +104,11 @@ defineOgImageComponent('OHF', {
                         :data-tip="ingredient.item.name"
                         :class="`border-oh-${ingredient.item.rarity} bg-oh-item-${ingredient.item.rarity}`"
                     >
-                        <img :src="ingredient.item.iconUrl" alt="" />
+                        <img
+                            :src="ingredient.item.iconUrl ?? '/img/default-item.png'"
+                            :class="{ 'opacity-75': !ingredient.item.iconUrl }"
+                            alt=""
+                        />
                         <span class="text-xs font-semibold text-white absolute bottom-1 right-1">
                             {{ ingredient.quantity }}
                         </span>
