@@ -1,5 +1,6 @@
 <script setup>
 const { data } = useAPI(`/once-human/events`, { server: false, lazy: true });
+const { data: stats } = useAPI(`/once-human/stats`, { server: false, lazy: true });
 
 const eventModal = ref();
 const currentEvent = ref();
@@ -88,10 +89,49 @@ function compareDates(a, b) {
 
 <template>
     <div class="container mx-auto">
-        <h1>Évènements de la semaine</h1>
+        <div class="max-w-xl mx-auto">
+            <h1 class="text-4xl mb-4">Base de données Once Human</h1>
+            <p class="text-lg mb-4">
+                Bienvenue Metas&nbsp;! Vous trouverez dans cette dans cette base de données des
+                informations et outils pour accompagner vos sessions sur le jeu
+                <a href="https://www.oncehuman.game" target="_blank" class="underline">Once Human</a
+                >, développé et édité par
+                <a href="https://www.neteasegames.com" target="_blank" class="underline">NetEase</a
+                >.
+            </p>
+            <p class="text-lg">Ce fansite n'est pas affilié avec l'éditeur de Once Human.</p>
+
+            <div class="grid grid-cols-3 gap-4 mt-6" v-if="stats">
+                <div class="bg-base-100 py-3 px-4 text-center">
+                    <div class="font-extrabold text-3xl">{{ stats.specializations }}</div>
+                    <div>spécialisations</div>
+                </div>
+                <div class="bg-base-100 py-3 px-4 text-center">
+                    <div class="font-extrabold text-3xl">{{ stats.items }}</div>
+                    <div>objets</div>
+                </div>
+                <div class="bg-base-100 py-3 px-4 text-center">
+                    <div class="font-extrabold text-3xl">{{ stats.recipes }}</div>
+                    <div>recettes</div>
+                </div>
+                <div class="bg-base-100 py-3 px-4 text-center">
+                    <div class="font-extrabold text-3xl">{{ stats.servers }}</div>
+                    <div>serveurs</div>
+                </div>
+                <div class="bg-base-100 py-3 px-4 text-center">
+                    <div class="font-extrabold text-3xl">{{ stats.hives }}</div>
+                    <div>ruches</div>
+                </div>
+                <div class="bg-base-100 py-3 px-4 text-center">
+                    <div class="font-extrabold text-3xl">{{ stats.characters }}</div>
+                    <div>personnages</div>
+                </div>
+            </div>
+        </div>
 
         <AppLoading v-if="!filteredEvents" />
         <template v-else>
+            <h1 class="mt-6">Évènements de la semaine</h1>
             <div class="flex gap-2 my-4">
                 <button
                     @click="
@@ -201,7 +241,9 @@ function compareDates(a, b) {
             </div>
         </template>
 
-        <Ohfr class="mt-4" />
+        <div class="max-w-xl mx-auto mt-6">
+            <Ohfr />
+        </div>
 
         <dialog ref="eventModal" class="modal">
             <div class="modal-box p-0">
@@ -250,9 +292,5 @@ function compareDates(a, b) {
                 <button>close</button>
             </form>
         </dialog>
-
-        <DevOnly>
-            <pre>{{ filteredEvents }}</pre>
-        </DevOnly>
     </div>
 </template>
